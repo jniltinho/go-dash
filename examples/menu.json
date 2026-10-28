@@ -1,0 +1,95 @@
+{
+  "format": "dashboard-menu",
+  "version": 1,
+  "items": [
+    {
+      "title": "Development",
+      "icon": "mdi mdi-code-braces",
+      "position": 0,
+      "items": [
+        {
+          "title": "Gitea",
+          "url": "http://localhost:3000",
+          "target": "blank",
+          "icon": "mdi mdi-git",
+          "description": "Internal repositories",
+          "position": 0
+        },
+        {
+          "title": "Documentation",
+          "icon": "mdi mdi-book-open-variant",
+          "position": 1,
+          "items": [
+            {
+              "title": "Go",
+              "url": "https://go.dev/doc/",
+              "target": "blank",
+              "icon": "mdi mdi-language-go",
+              "position": 0
+            },
+            {
+              "title": "Vue.js",
+              "url": "https://vuejs.org/guide/introduction.html",
+              "target": "blank",
+              "icon": "mdi mdi-vuejs",
+              "position": 1
+            },
+            {
+              "title": "DHTMLX Suite",
+              "url": "https://docs.dhtmlx.com/suite/",
+              "target": "blank",
+              "icon": "mdi mdi-view-dashboard-variant",
+              "position": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Maps",
+      "icon": "mdi mdi-map",
+      "position": 1,
+      "items": [
+        {
+          "title": "OpenStreetMap — São Paulo",
+          "url": "https://www.openstreetmap.org/export/embed.html?bbox=-46.75%2C-23.65%2C-46.55%2C-23.50&layer=mapnik",
+          "target": "iframe",
+          "icon": "mdi mdi-map-marker",
+          "description": "Map embedded in a dashboard tab",
+          "position": 0
+        },
+        {
+          "title": "OpenStreetMap — Rio de Janeiro",
+          "url": "https://www.openstreetmap.org/export/embed.html?bbox=-43.30%2C-22.98%2C-43.15%2C-22.88&layer=mapnik",
+          "target": "iframe",
+          "icon": "mdi mdi-map-marker-outline",
+          "position": 1
+        }
+      ]
+    },
+    {
+      "title": "Examples",
+      "url": "https://example.com",
+      "target": "iframe",
+      "icon": "mdi mdi-web",
+      "description": "Group with its own URL and subitems",
+      "position": 2,
+      "items": [
+        {
+          "title": "Example.org",
+          "url": "https://example.org",
+          "target": "iframe",
+          "icon": "mdi mdi-earth",
+          "position": 0
+        },
+        {
+          "title": "Example.net (new tab)",
+          "url": "https://example.net",
+          "target": "blank",
+          "icon": "mdi mdi-open-in-new",
+          "position": 1
+        }
+      ]
+    }
+  ]
+}

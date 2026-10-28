@@ -1,0 +1,52 @@
+/*
+ * Modals: the Vue AppModal shell, plus placement of DHTMLX dialogs (confirm
+ * and alert). Every modal opens 10% below the top of the viewport
+ * (--modal-top, kept in sync with MODAL_TOP_RATIO in src/lib/modal.ts).
+ * Colors come from the theme tokens only; no per-theme rules here.
+ */
+:root {
+  --modal-top: 10vh;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--modal-top) 1rem 1rem;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-panel {
+  box-shadow: var(--shadow-menu);
+  display: flex;
+  flex-direction: column;
+  width: min(calc(var(--modal-width, 880px) * var(--ui-scale)), 100%);
+  /* Room left below the 10% offset (and the bottom padding). */
+  max-height: calc(100vh - var(--modal-top) - 1rem);
+  outline: none;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--pad);
+  padding: var(--pad);
+  overflow: auto;
+}
+
+.modal-close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: calc(18px * var(--ui-scale));
+  cursor: pointer;
+}
+
+/* DHTMLX confirm/alert are centered by the vendor CSS; move them up too. */
+.dhx_alert {
+  top: var(--modal-top);
+  transform: translateX(-50%);
+}

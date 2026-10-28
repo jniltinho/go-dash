@@ -1,0 +1,15 @@
+.git
+.claude
+.codex
+bin
+docs
+openspec
+*.db
+*.db-*
+.env
+web/dist/*
+!web/dist/.gitkeep
+frontend/node_modules
+frontend/test-results
+frontend/playwright-report
+dist

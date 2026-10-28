@@ -1,0 +1,19 @@
+# Build outputs
+/bin/
+/web/dist/*
+!/web/dist/.gitkeep
+
+# Local data and secrets
+*.db
+*.db-shm
+*.db-wal
+/dashboard.toml
+.env
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+
+# Release artifacts (make dist)
+/dist/

@@ -1,0 +1,72 @@
+{
+  "format": "dashboard-menu",
+  "version": 1,
+  "items": [
+    {
+      "title": "Tests",
+      "icon": "mdi mdi-test-tube",
+      "position": 10,
+      "items": [
+        {
+          "title": "<img src=x onerror=window.__xss=1>",
+          "url": "https://xss.e2e.test/",
+          "target": "iframe",
+          "position": 0
+        },
+        {
+          "title": "Same origin",
+          "url": "http://127.0.0.1:8099/healthz",
+          "target": "iframe",
+          "position": 1
+        },
+        {
+          "title": "Window hijack",
+          "url": "https://top.e2e.test/",
+          "target": "iframe",
+          "position": 2
+        },
+        {
+          "title": "Page A",
+          "url": "https://a.e2e.test/",
+          "target": "iframe",
+          "position": 3
+        },
+        {
+          "title": "Page B",
+          "url": "https://b.e2e.test/",
+          "target": "iframe",
+          "position": 4
+        },
+        {
+          "title": "Disabled",
+          "url": "https://off.e2e.test/",
+          "target": "iframe",
+          "enabled": false,
+          "position": 5
+        }
+      ]
+    },
+    {
+      "title": "Menu only",
+      "url": "https://menu.e2e.test/",
+      "target": "iframe",
+      "placement": "menu",
+      "icon": "mdi mdi-menu",
+      "position": 20
+    },
+    {
+      "title": "Card only",
+      "icon": "mdi mdi-card-outline",
+      "placement": "card",
+      "position": 21,
+      "items": [
+        {
+          "title": "Card link",
+          "url": "https://card.e2e.test/",
+          "target": "iframe",
+          "icon": "mdi mdi-link"
+        }
+      ]
+    }
+  ]
+}

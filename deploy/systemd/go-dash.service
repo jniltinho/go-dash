@@ -1,0 +1,58 @@
+# Go Dash (link dashboard) as a systemd service.
+# Installed by deploy/install.sh; see docs/install.md.
+#
+#   /opt/go-dash/bin/go-dash   binary (root:root 0755)
+#   /opt/go-dash/go-dash.env     settings and secrets (root:go-dash 0640)
+#   /opt/go-dash/dashboard.toml  optional settings file (read when present)
+#   /opt/go-dash/data/           SQLite database (go-dash:go-dash 0750)
+#   /opt/go-dash/backups/        `go-dash backup` output (go-dash:go-dash 0750)
+[Unit]
+Description=Go Dash - link dashboard
+Documentation=file:///opt/go-dash/README.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=go-dash
+Group=go-dash
+WorkingDirectory=/opt/go-dash
+Environment=DASHBOARD_DB=/opt/go-dash/data/dashboard.db
+Environment=DASHBOARD_LOG_FORMAT=json
+EnvironmentFile=-/opt/go-dash/go-dash.env
+ExecStart=/opt/go-dash/bin/go-dash serve
+Restart=on-failure
+RestartSec=3
+# The server drains requests for up to 10 s on SIGTERM.
+TimeoutStopSec=20
+UMask=0027
+
+# Hardening: only the data and backup folders are writable.
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/go-dash/data /opt/go-dash/backups
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged @resources
+CapabilityBoundingSet=
+# To listen on 80/443 directly (DASHBOARD_ADDR=:443), use instead:
+#CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+#AmbientCapabilities=CAP_NET_BIND_SERVICE
+
+[Install]
+WantedBy=multi-user.target

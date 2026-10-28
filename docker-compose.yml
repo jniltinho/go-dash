@@ -1,0 +1,32 @@
+services:
+  dashboard:
+    build:
+      context: .
+      args:
+        VERSION: ${VERSION:-dev}
+        GIT_COMMIT: ${GIT_COMMIT:-unknown}
+    image: ghcr.io/jniltinho/go-dash:latest
+    container_name: go-dash
+    restart: unless-stopped
+    ports:
+      # Host IP and port (DASHBOARD_BIND_IP=127.0.0.1 behind a local proxy).
+      - "${DASHBOARD_BIND_IP:-0.0.0.0}:${DASHBOARD_PORT:-8080}:8080"
+    environment:
+      DASHBOARD_TITLE: ${DASHBOARD_TITLE:-Go Dash}
+      # Prefer DASHBOARD_ADMIN_PASSWORD_HASH (bcrypt) in production.
+      DASHBOARD_ADMIN_PASSWORD: ${DASHBOARD_ADMIN_PASSWORD:-}
+      DASHBOARD_ADMIN_PASSWORD_HASH: ${DASHBOARD_ADMIN_PASSWORD_HASH:-}
+      DASHBOARD_PUBLIC_URL: ${DASHBOARD_PUBLIC_URL:-}
+      # Sub-path behind a reverse proxy, e.g. /painel/ (default: served at /).
+      DASHBOARD_BASE_PATH: ${DASHBOARD_BASE_PATH:-/}
+      DASHBOARD_DEFAULT_THEME: ${DASHBOARD_DEFAULT_THEME:-ocean-light}
+      DASHBOARD_DEFAULT_THEME_STYLE: ${DASHBOARD_DEFAULT_THEME_STYLE:-flat}
+      # Behind an HTTPS reverse proxy: both true.
+      DASHBOARD_TRUST_PROXY: ${DASHBOARD_TRUST_PROXY:-false}
+      DASHBOARD_COOKIE_SECURE: ${DASHBOARD_COOKIE_SECURE:-false}
+      DASHBOARD_LOG_FORMAT: json
+    volumes:
+      - dashboard-data:/data
+
+volumes:
+  dashboard-data:

@@ -1,0 +1,892 @@
+/*
+ * Component styles. Colors come only from theme tokens set by applyTheme()
+ * (src/lib/theme.ts, src/theme/registry): --c-* (solid colors), --g-* (solid
+ * or 3D gradients), --shadow-card, --shadow-menu, --button-hover-ring, --tab-accent-shadow.
+ * Never add per-theme rules here — add tokens to the registry instead.
+ *
+ * Sizes derive from --ui-scale so the UI stays proportional on Full HD,
+ * QHD and 4K (at 100% OS scaling; with OS scaling the browser already
+ * reports a smaller CSS width and the base scale applies).
+ */
+
+/* Inter (SIL OFL; license shipped as /licenses/inter-OFL.txt) — used by the Ocean themes. */
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../vendor/fonts/inter/inter-latin.woff2') format('woff2');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('../vendor/fonts/inter/inter-latin-ext.woff2') format('woff2');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF,
+    U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ */
+/* Scale and metrics                                                   */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --ui-scale: 1;
+  /* Motion: short, decelerating; disabled under prefers-reduced-motion. */
+  --motion-fast: 140ms;
+  --motion-menu: 180ms;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --fs-ui: calc(13px * var(--ui-scale));
+  --fs-small: calc(12px * var(--ui-scale));
+  --fs-title: calc(14px * var(--ui-scale));
+  --bar-h: calc(40px * var(--ui-scale));
+  --tab-h: calc(32px * var(--ui-scale));
+  --ctl-h: calc(28px * var(--ui-scale));
+  --gap: calc(8px * var(--ui-scale));
+  --pad: calc(12px * var(--ui-scale));
+  --icon: calc(16px * var(--ui-scale));
+  /* DHTMLX sizes (fonts, paddings, rows) derive from its step size. */
+  --dhx-step-size: calc(3.5px * var(--ui-scale));
+  --dhx-border-radius: 0;
+}
+
+/* QHD (2560x1440) and ultrawide */
+@media (min-width: 2300px) {
+  :root {
+    --ui-scale: 1.25;
+  }
+}
+
+/* 4K UHD (3840x2160) */
+@media (min-width: 3400px) {
+  :root {
+    --ui-scale: 1.6;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+/* No rounded corners anywhere, in every theme and style. */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  background: var(--c-ink);
+  color: var(--c-text);
+  font-family: var(--app-font);
+  font-size: var(--fs-ui);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 1px;
+}
+
+ul.plain {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', Consolas, monospace;
+  font-size: 0.95em;
+}
+
+/*
+ * Thin scrollbars, identical across browsers: standard properties for
+ * Firefox/Chrome/Edge/Safari 26+, WebKit pseudo-elements only as fallback.
+ * Scrollbars inside iframes belong to the embedded site.
+ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--c-scrollbar-thumb) var(--c-scrollbar-track);
+}
+
+@supports not (scrollbar-color: auto) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--c-scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--c-scrollbar-thumb);
+    border: 2px solid var(--c-scrollbar-track);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--c-scrollbar-thumb-hover);
+  }
+
+  ::-webkit-scrollbar-corner {
+    background: var(--c-scrollbar-track);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Controls rendered by Vue                                            */
+/* ------------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: calc(6px * var(--ui-scale));
+  height: var(--ctl-h);
+  padding: 0 calc(10px * var(--ui-scale));
+  font: inherit;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.btn i {
+  font-size: var(--icon);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.btn-primary {
+  border: 1px solid var(--c-primary-pressed);
+  background: var(--g-button-primary);
+  color: var(--c-on-primary);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--c-primary-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+  background: var(--c-primary-pressed);
+}
+
+.btn-secondary {
+  border: 1px solid var(--c-button-line);
+  background: var(--g-button);
+  color: var(--c-button-fg);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--c-button-hover-bg);
+  color: var(--c-button-hover-fg);
+}
+
+.btn:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 2px var(--button-hover-ring);
+}
+
+[data-app-style='3d'] .btn {
+  box-shadow: var(--btn-shadow-3d);
+}
+
+/* Optional glow (Matrix) on headings and links in the 3D style. */
+[data-app-style='3d'] .app-toolbar .dhx_toolbar-button,
+[data-app-style='3d'] .app-toolbar .dhx_navbar-title,
+[data-app-style='3d'] .card-header,
+[data-app-style='3d'] .panel-title,
+[data-app-style='3d'] .link-item {
+  text-shadow: var(--text-glow);
+}
+
+[data-app-style='3d'] .btn:active:not(:disabled) {
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.field {
+  height: calc(32px * var(--ui-scale));
+  padding: 0 calc(10px * var(--ui-scale));
+  border: 1px solid var(--c-line);
+  background: var(--c-field-bg);
+  color: var(--c-text);
+  font: inherit;
+  font-size: var(--fs-ui);
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--c-focus);
+  box-shadow: 0 0 0 1px var(--c-focus);
+}
+
+.card {
+  border: 1px solid var(--c-line);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-card);
+}
+
+/*
+ * Card icon column: the header icon sits exactly above the link icons.
+ * Header left padding = card-body padding + link-item padding, and every
+ * icon in the column has the same fixed width.
+ */
+:root {
+  --card-body-pad: calc(6px * var(--ui-scale));
+  --link-pad: calc(8px * var(--ui-scale));
+  --icon-col: calc(18px * var(--ui-scale));
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  min-height: calc(36px * var(--ui-scale));
+  padding: 0 var(--pad) 0 calc(var(--card-body-pad) + var(--link-pad));
+  font-size: var(--fs-ui);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--c-card-header-fg);
+  background: var(--g-card-header);
+  border-bottom: var(--card-header-border, 1px solid var(--c-line));
+}
+
+.card-header > i,
+.link-item > i:first-child {
+  flex: 0 0 var(--icon-col);
+  width: var(--icon-col);
+  font-size: var(--icon);
+  text-align: center;
+}
+
+/* Higher specificity than `ul.plain`, which resets list padding. */
+.card .card-body {
+  padding: var(--card-body-pad);
+  background: var(--c-card-body-bg);
+}
+
+.link-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: var(--gap);
+  height: calc(30px * var(--ui-scale));
+  padding: 0 var(--link-pad);
+  border: 0;
+  background: transparent;
+  color: var(--c-card-link-fg);
+  font: inherit;
+  font-size: var(--fs-ui);
+  text-align: left;
+  cursor: pointer;
+}
+
+.link-item i {
+  font-size: var(--icon);
+}
+
+.link-item:disabled {
+  cursor: default;
+}
+
+/* Arrange mode (admins reorder cards on the home tab). */
+/*
+ * Card headers are drag handles (like Grafana panels): grab cursor, and tools
+ * (grip + subtle move buttons for click/keyboard) that show on hover or
+ * focus, and always on touch screens. The order is per browser.
+ */
+.card-handle[draggable='true'] {
+  cursor: grab;
+}
+
+.card-handle[draggable='true']:active {
+  cursor: grabbing;
+}
+
+.card-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(2px * var(--ui-scale));
+  opacity: 0;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+.card:hover .card-tools,
+.card:focus-within .card-tools {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .card-tools {
+    opacity: 1;
+  }
+}
+
+.card-move {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(22px * var(--ui-scale));
+  height: calc(22px * var(--ui-scale));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: calc(16px * var(--ui-scale));
+  cursor: pointer;
+}
+
+.card-move:hover:not(:disabled) {
+  background: var(--c-button-hover-bg);
+  color: var(--c-button-hover-fg);
+}
+
+.card-move:disabled {
+  visibility: hidden;
+}
+
+.home-grid .card {
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+.home-grid .card.is-dragging {
+  opacity: 0.45;
+}
+
+.home-grid .card.is-drop-target {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-tools,
+  .home-grid .card {
+    transition: none;
+  }
+}
+
+.link-item:hover,
+.link-item.is-highlighted {
+  background: var(--c-selection);
+  color: var(--c-on-selection);
+}
+
+.context-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  min-height: calc(36px * var(--ui-scale));
+  padding: 0 var(--pad);
+  font-size: var(--fs-ui);
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.panel-title {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  margin: 0;
+  min-height: calc(36px * var(--ui-scale));
+  padding: 0 var(--pad);
+  font-size: var(--fs-title);
+  font-weight: 600;
+  color: var(--c-panel-title-fg);
+  background: var(--g-panel-title);
+  border-bottom: 1px solid var(--c-line);
+}
+
+/* Panes rendered by Vue inside the Layout content cell. */
+.panes {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: var(--g-panes);
+}
+
+.pane {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pane iframe {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  background: #ffffff;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(260px * var(--ui-scale)), 1fr));
+  gap: calc(14px * var(--ui-scale));
+}
+
+/* ------------------------------------------------------------------ */
+/* DHTMLX: header toolbar                                              */
+/* ------------------------------------------------------------------ */
+
+.dhx_toolbar.app-toolbar {
+  /* DHTMLX writes an inline 56px height when attaching to a Layout cell. */
+  height: var(--bar-h) !important;
+  min-height: var(--bar-h);
+  background: var(--g-toolbar) !important;
+  border-bottom: 1px solid var(--c-toolbar-line);
+}
+
+.app-toolbar > .dhx_navbar {
+  height: var(--bar-h);
+  padding: 0 var(--gap) !important;
+  align-items: center;
+}
+
+.app-toolbar .dhx_toolbar-button {
+  height: calc(30px * var(--ui-scale));
+  padding: 0 calc(10px * var(--ui-scale));
+  font-size: var(--fs-ui);
+  font-weight: 500;
+  color: var(--c-toolbar-fg) !important;
+  transition:
+    background-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out);
+}
+
+.app-toolbar .dhx_toolbar-button__icon {
+  font-size: calc(17px * var(--ui-scale));
+}
+
+/* Icons, carets and text follow the button color (DHTMLX uses its own font color). */
+.app-toolbar .dhx_toolbar-button *,
+.app-toolbar .dhx_navbar-title * {
+  color: inherit !important;
+}
+
+.app-toolbar .dhx_toolbar-button:hover,
+.app-toolbar .dhx_toolbar-button--active,
+.app-toolbar .dhx_toolbar-button[aria-expanded='true'] {
+  background: var(--c-toolbar-hover-bg) !important;
+  color: var(--c-toolbar-hover-fg) !important;
+}
+
+.app-toolbar .dhx_navbar-title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: 0 calc(6px * var(--ui-scale));
+  font-size: var(--fs-title);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--c-toolbar-fg) !important;
+}
+
+/* Small accent mark before the title. */
+/* App mark (same file as the favicon): a navy panel with a turquoise menu bar and cards. */
+.app-toolbar .dhx_navbar-title::before {
+  content: '';
+  flex-shrink: 0;
+  width: calc(18px * var(--ui-scale));
+  height: calc(18px * var(--ui-scale));
+  background: url('/favicon.svg') center / contain no-repeat;
+}
+
+.app-toolbar .dhx_separator,
+.app-toolbar [role='separator'] {
+  border-color: var(--c-toolbar-line) !important;
+  background: var(--c-toolbar-line) !important;
+}
+
+/* Dropdown menus (appended to <body> by DHTMLX, so the theme font is set here). */
+.dhx_widget.dhx_menu,
+.dhx_menu-button,
+.dhx_widget.dhx_menu .dhx_menu-button__text {
+  font-family: var(--app-font) !important;
+}
+
+.dhx_widget.dhx_menu {
+  padding: calc(4px * var(--ui-scale)) 0;
+  border: 1px solid var(--c-line);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-menu);
+}
+
+.dhx_menu-button {
+  min-height: calc(30px * var(--ui-scale));
+  padding-top: 0;
+  padding-bottom: 0;
+  align-items: center;
+  font-size: var(--fs-ui);
+  color: var(--c-text);
+  transition:
+    background-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out);
+}
+
+/* Dropdowns and submenus ease in (fade and a short slide) instead of popping. */
+@keyframes menu-enter {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-6px * var(--ui-scale)));
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.dhx_widget.dhx_menu {
+  animation: menu-enter var(--motion-menu) var(--ease-out);
+}
+
+/* The caret of an open toolbar menu turns to point up (DHTMLX rotates it 90deg). */
+.app-toolbar .dhx_toolbar-button__caret {
+  transition: transform var(--motion-menu) var(--ease-out);
+}
+
+.app-toolbar .dhx_toolbar-button[aria-expanded='true'] .dhx_toolbar-button__caret {
+  transform: rotate(-90deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dhx_widget.dhx_menu,
+  .dhx_menu-button,
+  .app-toolbar .dhx_toolbar-button,
+  .app-toolbar .dhx_toolbar-button__caret {
+    animation: none;
+    transition: none;
+  }
+}
+
+.dhx_menu-button * {
+  color: inherit !important;
+}
+
+.dhx_menu-button:hover,
+.dhx_menu-button--active,
+.dhx_menu-button:focus-visible {
+  background: var(--c-selection) !important;
+  color: var(--c-on-selection) !important;
+}
+
+/* Active theme/style option: bold label and an accent bar on the left edge
+   (inset, so labels stay aligned — no check icon). */
+.menu-current > .dhx_menu-button,
+.dhx_menu-button.menu-current {
+  font-weight: 700;
+  box-shadow: inset 3px 0 0 var(--c-focus);
+}
+
+.menu-current > .dhx_menu-button .dhx_menu-button__text,
+.dhx_menu-button.menu-current .dhx_menu-button__text {
+  font-weight: 700;
+}
+
+/* On the selection background the bar takes the selection text color
+   (focus can match the selection, e.g. Matrix). */
+.menu-current > .dhx_menu-button:is(:hover, :focus-visible, .dhx_menu-button--active),
+.dhx_menu-button.menu-current:is(:hover, :focus-visible, .dhx_menu-button--active) {
+  box-shadow: inset 3px 0 0 var(--c-on-selection);
+}
+
+/* ------------------------------------------------------------------ */
+/* DHTMLX: tab bar                                                     */
+/* ------------------------------------------------------------------ */
+
+.app-tabbar,
+.app-tabbar .dhx_tabbar-header,
+.app-tabbar .dhx_tabbar-header__wrapper {
+  background: var(--c-tabbar-bg) !important;
+}
+
+.app-tabbar .dhx_tabbar-header {
+  border-bottom: 1px solid var(--c-tab-line);
+}
+
+/* Tab width/height are set from JS (DashboardView) scaled by --ui-scale. */
+.app-tabbar .dhx_tabbar-tab-button {
+  height: 100%;
+  margin: 0;
+  padding: 0 var(--pad);
+  justify-content: flex-start;
+  font-size: var(--fs-ui);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--c-tab-fg);
+  background: var(--g-tab);
+  border: 0;
+  border-right: 1px solid var(--c-tab-line);
+}
+
+.app-tabbar .dhx_tabbar-tab-button--active {
+  color: var(--c-tab-active-fg) !important;
+  background: var(--g-tab-active) !important;
+  box-shadow: var(--tab-accent-shadow);
+}
+
+/*
+ * Close button. DHTMLX paints it with the primary color (invisible on some
+ * tabs); tokens give each theme its own colors. Vertical centering comes from
+ * DHTMLX (top: 50% + translateY(-50%)).
+ */
+.app-tabbar .dhx_tabbar-tab:has(.dhx_tabbar-tab__close) .dhx_tabbar-tab-button {
+  padding-right: calc(32px * var(--ui-scale));
+}
+
+.app-tabbar .dhx_tabbar-tab__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(22px * var(--ui-scale));
+  height: calc(22px * var(--ui-scale));
+  right: calc(6px * var(--ui-scale));
+  font-size: var(--icon);
+  cursor: pointer;
+  color: var(--c-tab-close-fg) !important;
+  background: transparent;
+}
+
+.app-tabbar .dhx_tabbar-tab-button--active + .dhx_tabbar-tab__close {
+  color: var(--c-tab-close-active-fg) !important;
+}
+
+.app-tabbar .dhx_tabbar-tab__close:hover,
+.app-tabbar .dhx_tabbar-tab__close:focus-visible {
+  color: var(--c-tab-close-hover-fg) !important;
+  background: var(--c-tab-close-hover-bg);
+}
+
+/* ------------------------------------------------------------------ */
+/* DHTMLX: layout cells, tree and form (administration)                */
+/* ------------------------------------------------------------------ */
+
+.dhx_layout-cell-header {
+  min-height: calc(32px * var(--ui-scale));
+  padding: 0 var(--pad);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-line);
+}
+
+.dhx_tree-list-item__content {
+  min-height: calc(28px * var(--ui-scale));
+}
+
+.dhx_tree-list-item--selected > .dhx_tree-list-item__content,
+.dhx_tree-list-item--focused > .dhx_tree-list-item__content {
+  background: var(--c-selection) !important;
+  color: var(--c-on-selection) !important;
+}
+
+/* DHTMLX colors the tree text/icons explicitly; make them follow the selection. */
+.dhx_tree-list-item--selected > .dhx_tree-list-item__content *,
+.dhx_tree-list-item--focused > .dhx_tree-list-item__content * {
+  color: inherit !important;
+}
+
+/*
+ * Checked checkbox: DHTMLX paints a fixed white SVG check, invisible on light
+ * primaries (Ocean Dark, Matrix, High Contrast). Draw it with the
+ * theme's onPrimary color instead (primary/onPrimary is contrast-tested).
+ */
+.dhx_checkbox__input:checked + .dhx_checkbox__visual-input,
+.dhx_checkbox__input[data-dhx-checked='true'] + .dhx_checkbox__visual-input {
+  position: relative;
+  background-image: none !important;
+  background-color: var(--c-primary) !important;
+  border-color: var(--c-primary) !important;
+}
+
+.dhx_checkbox__input:checked + .dhx_checkbox__visual-input::after,
+.dhx_checkbox__input[data-dhx-checked='true'] + .dhx_checkbox__visual-input::after {
+  content: '';
+  position: absolute;
+  left: 34%;
+  top: 14%;
+  width: 28%;
+  height: 52%;
+  border: solid var(--c-on-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Keep the admin form readable on very wide screens. */
+.admin-form-cell .dhx_form {
+  max-width: calc(980px * var(--ui-scale));
+}
+
+/*
+ * Fields with an action button (icon picker, copy URL): the input grows and
+ * the button sits on the same row,
+ * top-aligned with the input box (below the label) and with the same height.
+ * Both offsets use DHTMLX's own label/input metrics, so they scale together.
+ */
+.field-action-row {
+  flex-wrap: nowrap !important;
+  align-items: flex-start !important;
+}
+
+.field-action-row > :first-child {
+  flex: 1 1 auto !important;
+  min-width: 0;
+}
+
+.field-action-row .field-action-button {
+  flex: 0 0 auto !important;
+  width: auto !important;
+  margin-top: calc(var(--dhx-line-height-normal) + 6px);
+  margin-left: var(--gap);
+}
+
+.field-action-row .field-action-button .dhx_button {
+  height: calc(var(--dhx-line-height-normal) + 12px);
+  padding: 0 calc(12px * var(--ui-scale));
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: var(--c-button-fg) !important;
+  background: var(--g-button) !important;
+  border: 1px solid var(--c-button-line);
+}
+
+.field-action-row .field-action-button .dhx_button:hover {
+  color: var(--c-button-hover-fg) !important;
+  background: var(--c-button-hover-bg) !important;
+  box-shadow: inset 0 0 0 2px var(--button-hover-ring);
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon picker modal                                                   */
+/* ------------------------------------------------------------------ */
+
+.icon-grid {
+  flex: 1;
+  min-height: 160px;
+  overflow: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(104px * var(--ui-scale)), 1fr));
+  gap: 4px;
+  padding: 0 var(--pad) var(--pad);
+}
+
+.icon-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: calc(10px * var(--ui-scale)) 4px calc(6px * var(--ui-scale));
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--c-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.icon-cell i {
+  font-size: calc(26px * var(--ui-scale));
+  line-height: 1;
+}
+
+.icon-cell span {
+  width: 100%;
+  overflow: hidden;
+  font-size: calc(11px * var(--ui-scale));
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--c-muted);
+}
+
+.icon-cell:hover {
+  border-color: var(--c-line);
+  background: var(--c-surface-alt);
+}
+
+.icon-cell.is-selected,
+.icon-cell.is-selected span {
+  border-color: var(--c-selection);
+  background: var(--c-selection);
+  color: var(--c-on-selection);
+}
+
+.icon-picker-footer {
+  border-top: 1px solid var(--c-line);
+  border-bottom: 0;
+}
+
+.dhx_message {
+  background: var(--c-surface);
+  color: var(--c-text);
+  border-left: 3px solid var(--c-tab-accent);
+  font-size: var(--fs-ui);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dashboards panel (Admin)                                            */
+/* ------------------------------------------------------------------ */
+
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-ui);
+  color: var(--c-text);
+}
+
+.dash-table th,
+.dash-table td {
+  padding: calc(6px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  border-bottom: 1px solid var(--c-line);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.dash-table th {
+  color: var(--c-muted);
+  font-weight: 600;
+}
+
+.dash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.dash-form {
+  display: flex;
+  flex-direction: column;
+  gap: calc(10px * var(--ui-scale));
+  padding: var(--pad);
+  border: 1px solid var(--c-line);
+  background: var(--c-surface-alt);
+}
+
+.dash-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(240px * var(--ui-scale)), 1fr));
+  gap: calc(10px * var(--ui-scale));
+}

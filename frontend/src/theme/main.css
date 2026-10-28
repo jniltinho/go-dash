@@ -1,0 +1,23 @@
+/*
+ * Tailwind without preflight, so DHTMLX component styles are not reset.
+ * Only the theme tokens and utilities are imported. Color tokens are CSS
+ * variables redefined per theme in theme.css.
+ */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@import './theme.css';
+@import './modal.css';
+
+@theme inline {
+  --color-ink: var(--c-ink);
+  --color-surface: var(--c-surface);
+  --color-line: var(--c-line);
+  --color-text: var(--c-text);
+  --color-muted: var(--c-muted);
+  --color-primary: var(--c-primary);
+  --color-link: var(--c-link);
+  --color-danger: var(--c-danger);
+  --radius-*: initial;
+}

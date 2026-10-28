@@ -1,0 +1,46 @@
+# CI: every push to main and every pull request — Go vet/tests and the frontend check, type-check and unit tests.
+# The release (release.yml) calls this workflow first. The Playwright e2e suite is not run here (`make e2e`, locally).
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: read
+
+env:
+  TZ: America/Sao_Paulo
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: go.mod
+          cache-dependency-path: go.sum
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Frontend check, type-check, tests and build (→ web/dist)
+        working-directory: frontend
+        run: |
+          npm ci --no-audit --no-fund
+          npm run check
+          npm run typecheck
+          npm run test
+          npm run build
+      - name: Go format, vet and tests
+        run: |
+          test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+          go vet ./...
+          go test -race ./... -count=1
+      - name: Single static binary
+        run: CGO_ENABLED=0 go build -trimpath -o bin/go-dash . && ./bin/go-dash version

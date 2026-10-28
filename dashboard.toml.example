@@ -1,0 +1,60 @@
+# Dashboard configuration (TOML).
+# Precedence: command-line flags > DASHBOARD_* environment variables > this file > defaults.
+# Every key maps to an environment variable: addr -> DASHBOARD_ADDR, max_tabs -> DASHBOARD_MAX_TABS.
+# Copy to ./dashboard.toml (read automatically) or pass --config path/to/file.toml.
+
+# HTTP listen address.
+addr = ":8080"
+
+# SQLite database file (created on first run, migrations are automatic).
+db = "./dashboard.db"
+
+# Public URL of the dashboard; iframe items cannot point to this origin.
+# When it has a path, it must equal base_path.
+public_url = ""
+
+# URL prefix when a reverse proxy publishes the dashboard under a sub-path,
+# e.g. "/panel/" for https://host/panel/. Works whether the proxy keeps or
+# strips the prefix. "/" = served at the root.
+base_path = "/"
+
+# Title shown in the toolbar.
+title = "Go Dash"
+
+# Menu JSON imported on `serve` when the menu is empty (see examples/menu.json).
+seed = ""
+
+# Maximum number of open item tabs (least recently used tab is closed beyond it).
+max_tabs = 10
+
+# CSP frame-src sources allowed in the central iframes.
+frame_src = "http: https:"
+
+# Sandbox tokens of the central iframes.
+iframe_sandbox = "allow-scripts allow-same-origin allow-forms allow-popups"
+
+# Theme and style for visitors without a saved choice (each analyst can change
+# it in the "Theme" menu; the choice is kept in their browser).
+# Themes: blue-black, dark, graphite, midnight, light, ocean-light,
+# ocean-dark, xp, win98, mac-classic, matrix, high-contrast.
+default_theme = "ocean-light"
+default_theme_style = "flat"
+
+# Login attempts allowed per minute per client IP (global cap: 4 times this value).
+login_rate = 5
+
+# TLS (both or none). Without TLS, put the dashboard behind an HTTPS proxy.
+tls_cert = ""
+tls_key = ""
+# Always mark the session cookie Secure (use behind an HTTPS proxy).
+cookie_secure = false
+# Trust X-Forwarded-For / X-Forwarded-Proto from a reverse proxy.
+trust_proxy = false
+
+# Logging: debug, info, warn, error / text or json.
+log_level = "info"
+log_format = "text"
+
+# Admin password. Prefer the bcrypt hash or `go-dash admin set-password`.
+# admin_password_hash = "$2a$12$..."
+# admin_password = ""
