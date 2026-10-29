@@ -22,13 +22,30 @@ shipped as a single binary.
 
 ## Quick start
 
+Run the published image ([`ghcr.io/jniltinho/go-dash`](https://github.com/jniltinho/go-dash/pkgs/container/go-dash)),
+no clone or build needed:
+
 ```bash
-cp .env.example .env        # set DASHBOARD_ADMIN_PASSWORD
-make docker-up              # http://localhost:8080
+docker run -d --name go-dash -p 8080:8080 \
+  -e DASHBOARD_ADMIN_PASSWORD='change-me' \
+  -v go-dash-data:/data \
+  ghcr.io/jniltinho/go-dash:latest
 ```
 
-The first start imports `examples/menu.json`; open `/admin` to edit the menu.
-Data lives in the `dashboard-data` volume.
+Open <http://localhost:8080>; the first start imports the example menu. Sign in
+at `/admin` with the password above to edit menus, cards and dashboards. Data
+(the SQLite database) lives in the `go-dash-data` volume, so upgrading is
+`docker pull` plus recreating the container.
+
+With Docker Compose, using the release [`docker-compose.yml`](deploy/docker-compose.yml):
+
+```bash
+curl -fsSLO https://raw.githubusercontent.com/jniltinho/go-dash/main/deploy/docker-compose.yml
+DASHBOARD_ADMIN_PASSWORD='change-me' docker compose up -d
+```
+
+From a clone, `cp .env.example .env` (set `DASHBOARD_ADMIN_PASSWORD`) and
+`make docker-up` builds the image locally.
 
 Without Docker (Go 1.26+, Node.js 24+):
 
