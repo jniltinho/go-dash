@@ -245,6 +245,42 @@ code {
   box-shadow: 0 0 0 1px var(--c-focus);
 }
 
+/* Language picker on screens without the toolbar: reads as inline text. */
+.locale-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(4px * var(--ui-scale));
+  font-size: var(--fs-small);
+  color: var(--c-muted);
+  cursor: pointer;
+}
+
+.locale-select:hover,
+.locale-select:focus-within {
+  color: var(--c-text);
+}
+
+.locale-select select {
+  appearance: none;
+  padding: calc(2px * var(--ui-scale)) calc(18px * var(--ui-scale)) calc(2px * var(--ui-scale)) 0;
+  margin-right: calc(-18px * var(--ui-scale));
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.locale-select option {
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.locale-select .mdi-chevron-down {
+  pointer-events: none;
+}
+
 .card {
   border: 1px solid var(--c-line);
   background: var(--c-surface);

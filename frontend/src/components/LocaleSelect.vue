@@ -12,11 +12,12 @@ function onChange(event: Event): void {
 </script>
 
 <template>
-  <label class="flex items-center gap-2 text-sm text-text">
+  <label class="locale-select">
     <i class="mdi mdi-translate" aria-hidden="true"></i>
     <span class="sr-only">{{ t('common.language') }}</span>
-    <select class="field" :value="localeStore.locale" data-testid="locale-select" @change="onChange">
+    <select :value="localeStore.locale" data-testid="locale-select" @change="onChange">
       <option v-for="l in LOCALES" :key="l.locale" :value="l.locale" :lang="l.locale">{{ l.label }}</option>
     </select>
+    <i class="mdi mdi-chevron-down" aria-hidden="true"></i>
   </label>
 </template>
