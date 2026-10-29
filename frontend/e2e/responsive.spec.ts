@@ -30,8 +30,8 @@ for (const screen of SCREENS) {
     await page.goto('/')
 
     await expect(toolbarButton(page, 'Development')).toBeVisible()
-    expect(await height(page, '.dhx_toolbar.app-toolbar')).toBeCloseTo(40 * screen.scale, 0)
-    expect(await height(page, '.app-tabbar .dhx_tabbar-tab')).toBeCloseTo(32 * screen.scale, 0)
+    expect(await height(page, '.dhx_toolbar.app-toolbar')).toBeCloseTo(32 * screen.scale, 0)
+    expect(await height(page, '.app-tabbar .dhx_tabbar-tab')).toBeCloseTo(Math.round(26 * screen.scale), 0)
     await noHorizontalOverflow(page)
 
     await openFromMenu(page, 'Tests', 'Page A')

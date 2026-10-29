@@ -33,7 +33,7 @@ or in a **new browser tab**, and can be shown in the menu, as a card on the
 | Backend | Go 1.26 · Cobra · viper (TOML + env) · Echo v5 · SQLite (pure Go) · slog |
 | Frontend | Vue 3 · TypeScript · Vite+ · DHTMLX Suite 9 (Layout, Toolbar, Tabbar, Tree, Form) · Tailwind CSS v4 |
 | Delivery | one static binary with the frontend embedded; Docker image ~50 MB |
-| Screens | slim bars (40/32 px) scaling for Full HD, QHD and 4K |
+| Screens | slim bars (32/26 px) scaling for Full HD, QHD and 4K |
 
 ## Themes
 

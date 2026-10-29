@@ -16,7 +16,7 @@ import { useConfigStore, useDashboardStore, useLocaleStore, useMenuStore, useThe
 const HOME_TAB = 'home'
 /** Tab size at scale 1 (Full HD); multiplied by --ui-scale on larger screens. */
 const TAB_WIDTH = 190
-const TAB_HEIGHT = 32
+const TAB_HEIGHT = 26
 const tabId = (id: number) => `tab-${id}`
 const itemFromTab = (id: string) => (id.startsWith('tab-') ? Number(id.slice(4)) : null)
 
@@ -339,11 +339,23 @@ watch(
         <span class="truncate font-semibold text-text" data-testid="context-title">{{ tab.item.title }}</span>
         <span class="truncate text-muted">{{ tab.item.url }}</span>
         <span class="flex-1"></span>
-        <button type="button" class="btn btn-primary" @click="openInNewTab(tab.item.url!)">
-          <i class="mdi mdi-open-in-new"></i> {{ t('dashboard.openInNewTab') }}
+        <button
+          type="button"
+          class="btn btn-primary btn-icon"
+          :title="t('dashboard.openInNewTab')"
+          :aria-label="t('dashboard.openInNewTab')"
+          @click="openInNewTab(tab.item.url!)"
+        >
+          <i class="mdi mdi-open-in-new" aria-hidden="true"></i>
         </button>
-        <button type="button" class="btn btn-secondary" @click="reloadTab(tab)">
-          <i class="mdi mdi-refresh"></i> {{ t('dashboard.reload') }}
+        <button
+          type="button"
+          class="btn btn-secondary btn-icon"
+          :title="t('dashboard.reload')"
+          :aria-label="t('dashboard.reload')"
+          @click="reloadTab(tab)"
+        >
+          <i class="mdi mdi-refresh" aria-hidden="true"></i>
         </button>
       </div>
 

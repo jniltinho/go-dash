@@ -279,15 +279,15 @@ Themes SHALL be defined as data (color tokens, font, 3D style gradients and opti
 - **THEN** the toolbar icons have the same color as the toolbar text
 
 ### Requirement: Slim bars and resolution scaling
-The toolbar SHALL be 40 px and the tab bar 32 px high in Full HD, with a 13 px font. The interface SHALL scale proportionally to the usable CSS width: factor 1 up to 2299 px (Full HD), 1.25 from 2300 px (QHD) and 1.6 from 3400 px (4K at 100% system scaling), including the dimensions configured through JavaScript in the DHTMLX widgets (tab width/height, tree column). The page MUST NOT have horizontal scrolling at these resolutions and the administration form MUST limit its width on very wide screens.
+The toolbar SHALL be 32 px and the tab bar 26 px high in Full HD, with a 13 px font. The interface SHALL scale proportionally to the usable CSS width: factor 1 up to 2299 px (Full HD), 1.25 from 2300 px (QHD) and 1.6 from 3400 px (4K at 100% system scaling), including the dimensions configured through JavaScript in the DHTMLX widgets (tab width/height, tree column). The page MUST NOT have horizontal scrolling at these resolutions and the administration form MUST limit its width on very wide screens.
 
 #### Scenario: Full HD
 - **WHEN** the dashboard is opened at 1920x1080
-- **THEN** the toolbar is 40 px, the tabs 32 px and there is no horizontal scrolling
+- **THEN** the toolbar is 32 px, the tabs 26 px and there is no horizontal scrolling
 
 #### Scenario: QHD and 4K
 - **WHEN** the dashboard is opened at 2560x1440 or 3840x2160
-- **THEN** the toolbar and tabs are 40/32 px multiplied by 1.25 or 1.6, the tabs do not overlap and there is no horizontal scrolling
+- **THEN** the toolbar and tabs are 32/26 px multiplied by 1.25 or 1.6, the tabs do not overlap and there is no horizontal scrolling
 
 #### Scenario: Icon picker button aligned
 - **WHEN** the item form is shown at any of these resolutions
