@@ -8,6 +8,19 @@ All notable changes to this project are documented here. The format follows
 
 —
 
+## [0.2.0] — 2026-10-29
+
+**A slimmer, quieter interface and a one-command Docker quick start.**
+
+### Changed
+
+- Slimmer bars at every scale (Full HD, QHD, 4K): toolbar 40 → 32 px, tab bar 32 → 26 px, home card headers
+  36 → 28 px, item context bar 36 → 30 px.
+- Smaller toolbar typography: 12 px labels, 15 px icons, 13 px title (scaled by `--ui-scale`).
+- "Open in new tab" and "Reload" in the item context bar are icon-only buttons with a tooltip and an accessible name.
+- Minimalist language picker on the login, unlock and error screens: inline muted text instead of a boxed field.
+- README quick start runs the published `ghcr.io/jniltinho/go-dash` image with `docker run` or Docker Compose.
+
 ## [0.1.0] — 2026-10-28
 
 **First public release of Go Dash: a link aggregator dashboard in one Go binary.**
